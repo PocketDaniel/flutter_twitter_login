@@ -4,6 +4,10 @@ version: 1.1.0
 author: Iiro Krankka <iiro.krankka@gmail.com>
 homepage: https://github.com/roughike/flutter_twitter_login
 
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+  flutter: ">=1.20.0"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -16,6 +20,3 @@ flutter:
   plugin:
     androidPackage: com.roughike.fluttertwitterlogin.fluttertwitterlogin
     pluginClass: TwitterLoginPlugin
-
-environment:
-  sdk: ">=2.0.0-dev.28.0 <3.0.0"
