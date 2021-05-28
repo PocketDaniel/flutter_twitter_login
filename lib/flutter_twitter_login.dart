@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// A Flutter plugin for authenticating users by using the native Twitter
@@ -15,13 +14,9 @@ class TwitterLogin {
   /// apps site at https://apps.twitter.com/, in the "Keys and Access Tokens"
   /// tab.
   TwitterLogin({
-    @required this.consumerKey,
-    @required this.consumerSecret,
-  })  : assert(consumerKey != null && consumerKey.isNotEmpty,
-            'Consumer key may not be null or empty.'),
-        assert(consumerSecret != null && consumerSecret.isNotEmpty,
-            'Consumer secret may not be null or empty.'),
-        _keys = {
+    required this.consumerKey,
+    required this.consumerSecret,
+  }) : _keys = {
           'consumerKey': consumerKey,
           'consumerSecret': consumerSecret,
         };
@@ -53,8 +48,8 @@ class TwitterLogin {
   /// ```
   ///
   /// If the user is not logged in, this returns null.
-  Future<TwitterSession> get currentSession async {
-    final Map<dynamic, dynamic> session =
+  Future<TwitterSession?> get currentSession async {
+    final Map<dynamic, dynamic>? session =
         await channel.invokeMethod('getCurrentSession', _keys);
 
     if (session == null) {
@@ -125,7 +120,7 @@ class TwitterLoginResult {
 
   /// Only available when the [status] equals [TwitterLoginStatus.loggedIn],
   /// otherwise null.
-  final TwitterSession session;
+  final TwitterSession? session;
 
   /// Only available when the [status] equals [TwitterLoginStatus.error]
   /// otherwise null.
@@ -134,7 +129,7 @@ class TwitterLoginResult {
   TwitterLoginResult._(Map<String, dynamic> map)
       : status = _parseStatus(map['status'], map['errorMessage']),
         session = map['session'] != null
-            ? new TwitterSession.fromMap(
+            ? TwitterSession.fromMap(
                 map['session'].cast<String, dynamic>(),
               )
             : null,
