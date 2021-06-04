@@ -124,7 +124,7 @@ class TwitterLoginResult {
 
   /// Only available when the [status] equals [TwitterLoginStatus.error]
   /// otherwise null.
-  final String errorMessage;
+  final String? errorMessage;
 
   TwitterLoginResult._(Map<String, dynamic> map)
       : status = _parseStatus(map['status'], map['errorMessage']),
@@ -135,14 +135,15 @@ class TwitterLoginResult {
             : null,
         errorMessage = map['errorMessage'];
 
-  static TwitterLoginStatus _parseStatus(String status, String errorMessage) {
+  static TwitterLoginStatus _parseStatus(String status, String? errorMessage) {
     switch (status) {
       case 'loggedIn':
         return TwitterLoginStatus.loggedIn;
       case 'error':
         // Kind of a hack, but the only way of determining this.
-        if (errorMessage.contains('canceled') ||
-            errorMessage.contains('cancelled')) {
+        if (errorMessage != null &&
+            (errorMessage.contains('canceled') ||
+                errorMessage.contains('cancelled'))) {
           return TwitterLoginStatus.cancelledByUser;
         }
 
